@@ -12,7 +12,7 @@ import pandas as pd
 st.title("Client Exposure Report")
 
 # Load the Excel data
-df = pd.read_excel(r"C:\Users\Cryan\Documents\test_app\test_report.xlsx")
+df = pd.read_excel("test_report.xlsx")
 
 # Show the raw data
 st.subheader("Raw Data")
