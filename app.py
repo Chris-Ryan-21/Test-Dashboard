@@ -14,6 +14,9 @@ st.title("Client Exposure Report")
 # Load the Excel data
 df = pd.read_excel("test_report.xlsx")
 
+# Reset index to remove the extra left-side index column
+df = df.reset_index(drop=True)
+
 # Style the Exposure Table
 st.subheader("Exposure Table")
 
@@ -38,4 +41,5 @@ ax.set_title('Exposure by Counterparty')
 plt.xticks(rotation=45, ha='right')  # rotate x-axis labels for better readability
 
 st.pyplot(fig)
+
 
