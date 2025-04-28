@@ -4,7 +4,6 @@ Created on Wed Apr 23 17:24:46 2025
 
 @author: CRyan
 """
-
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,25 +18,14 @@ df = pd.read_excel("test_report.xlsx")
 st.subheader("Raw Data")
 st.dataframe(df)
 
-# Optional: Filter by cp
-cp_options = df['Counterparty'].unique()
-selected_cp = st.selectbox("Select a counterparty to filter", cp_options)
+# Create a bar chart of each counterparty's exposure
+st.subheader("Exposure per Counterparty")
 
-filtered_df = df[df['Counterparty'] == selected_cp]
+fig, ax = plt.subplots()
+ax.bar(df['Counterparty'], df['Exposure'], color='skyblue', edgecolor='black')
+ax.set_xlabel('Counterparty')
+ax.set_ylabel('Exposure')
+ax.set_title('Exposure by Counterparty')
+plt.xticks(rotation=45, ha='right')  # rotate x-axis labels for better readability
 
-st.subheader(f"Data for {selected_cp}")
-st.dataframe(filtered_df)
-
-# New section: Histogram
-st.subheader(f"Exposure Histogram for {selected_cp}")
-
-# Assuming your exposure is in a column called "Exposure" (or similar)
-if 'Exposure' in filtered_df.columns:
-    fig, ax = plt.subplots()
-    ax.hist(filtered_df['Exposure'], bins=10, color='skyblue', edgecolor='black')
-    ax.set_xlabel('Exposure Amount')
-    ax.set_ylabel('Frequency')
-    ax.set_title(f"Histogram of Exposure - {selected_cp}")
-    st.pyplot(fig)
-else:
-    st.write("No 'Exposure' column found to plot.")
+st.pyplot(fig)
