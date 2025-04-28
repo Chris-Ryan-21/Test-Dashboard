@@ -14,9 +14,18 @@ st.title("Client Exposure Report")
 # Load the Excel data
 df = pd.read_excel("test_report.xlsx")
 
-# Show the raw data
-st.subheader("Raw Data")
-st.dataframe(df)
+# Style the Exposure Table
+st.subheader("Exposure Table")
+
+def highlight_high_utilization(val):
+    color = 'red' if val > 0.9 else 'black'
+    return f'color: {color}'
+
+styled_df = df.style.format({
+    'Utilization Rate': '{:.2%}'
+}).applymap(highlight_high_utilization, subset=['Utilization Rate'])
+
+st.dataframe(styled_df, use_container_width=True)
 
 # Create a bar chart of each counterparty's exposure
 st.subheader("Exposure per Counterparty")
@@ -29,3 +38,4 @@ ax.set_title('Exposure by Counterparty')
 plt.xticks(rotation=45, ha='right')  # rotate x-axis labels for better readability
 
 st.pyplot(fig)
+
